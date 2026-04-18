@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  backend:
+    image: tu_usuario_dockerhub/springboot-sqlserver:1.0
+    container_name: springboot-sqlserver
+    ports:
+      - "8085:8085"
+    environment:
+      - PORT=8085
+      - SERVER_URL=http://localhost:8085
+      - DATABASE_URL=jdbc:sqlserver://backend:1433;databaseName=model;encrypt=true;trustServerCertificate=true
+      - DATABASE_USERNAME=sa
+      - DATABASE_PASSWORD=Alexis123!
+      - DATABASE_DRIVER=com.microsoft.sqlserver.jdbc.SQLServerDriver
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    external: true
