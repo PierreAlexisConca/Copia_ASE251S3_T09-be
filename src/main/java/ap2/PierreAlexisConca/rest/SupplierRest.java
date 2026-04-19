@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/v1/api/supplier")
+@RequestMapping("/api/proveedores")
 @CrossOrigin(origins = "http://localhost:4200") // Puerto por defecto de Angular
 public class SupplierRest {
 
