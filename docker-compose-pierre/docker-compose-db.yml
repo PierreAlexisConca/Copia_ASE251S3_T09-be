@@ -1,0 +1,31 @@
+# docker-compose -f docker-compose-db.yml up -d
+
+# docker-compose -f docker-compose-db.yml down
+
+#CASO DE CONCaFLORES PIERRE
+# prender
+# docker-compose -f docker-compose-pierre/docker-compose-db.yml up -d
+
+# apagar
+# docker-compose -f docker-compose-pierre/docker-compose-db.yml down
+
+version: '3'
+
+services:
+  sqlserver:
+    image: concaflores/sql-server:2022   # corregido para usar la imagen existente en Docker Hub
+    container_name: pierre
+    environment:
+      SA_PASSWORD: "Alexis123!"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+    ports:
+      - "1434:1433"
+    networks:
+      - my-network
+
+# CREAR UNA RED EN ESTE COMPOSE PARA QUE SEA COMPARTIDA
+networks:
+  my-network:
+    name: my-network   # red compartida, visible desde ambos compose
+    driver: bridge

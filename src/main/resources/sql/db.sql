@@ -1,4 +1,29 @@
-USE model;
+-- ========================================
+-- 1. CREAR BASE DE DATOS
+-- ========================================
+IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'agro_db')
+BEGIN
+    CREATE DATABASE agro_db;
+END
+GO
+
+USE agro_db;
+GO
+
+-- ========================================
+-- 2. ELIMINAR TABLAS (SI EXISTEN)
+-- ========================================
+DROP TABLE IF EXISTS proveedores;
+DROP TABLE IF EXISTS producto;
+DROP TABLE IF EXISTS pedido;
+DROP TABLE IF EXISTS contacto;
+DROP TABLE IF EXISTS cliente;
+DROP TABLE IF EXISTS categoria;
+GO
+
+-- ========================================
+-- 3. CREAR TABLAS
+-- ========================================
 
 -- Tabla categoria
 CREATE TABLE categoria (
@@ -6,6 +31,54 @@ CREATE TABLE categoria (
     nombre VARCHAR(100) NOT NULL,
     descripcion VARCHAR(255)
 );
+
+-- Tabla cliente
+CREATE TABLE cliente (
+    id BIGINT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    telefono VARCHAR(20) NOT NULL
+);
+
+-- Tabla contacto
+CREATE TABLE contacto (
+    id BIGINT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    telefono VARCHAR(20) NOT NULL,
+    email VARCHAR(100) NOT NULL
+);
+
+-- Tabla pedido
+CREATE TABLE pedido (
+    id BIGINT IDENTITY(1,1) PRIMARY KEY,
+    fecha DATE NOT NULL,
+    total FLOAT NOT NULL
+);
+
+-- Tabla producto
+CREATE TABLE producto (
+    id BIGINT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion VARCHAR(255),
+    precio FLOAT NOT NULL
+);
+
+-- Tabla proveedores
+CREATE TABLE proveedores (
+    id BIGINT IDENTITY(1,1) PRIMARY KEY,
+    ruc CHAR(11) NOT NULL,
+    cellphone CHAR(9) NOT NULL,
+    company_name VARCHAR(100) NOT NULL,
+    contact_name VARCHAR(100),
+    address VARCHAR(150),
+    state CHAR(1) NOT NULL
+);
+GO
+
+-- ========================================
+-- 4. INSERTAR DATOS
+-- ========================================
+
 INSERT INTO categoria (nombre, descripcion) VALUES
 ('Fertilizantes', 'Productos para nutrir plantas'),
 ('Herramientas', 'Herramientas agrícolas'),
@@ -16,13 +89,6 @@ INSERT INTO categoria (nombre, descripcion) VALUES
 ('Maquinaria', 'Maquinaria agrícola'),
 ('Accesorios', 'Accesorios varios');
 
--- Tabla cliente
-CREATE TABLE cliente (
-    id BIGINT IDENTITY(1,1) PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    telefono VARCHAR(20) NOT NULL
-);
 INSERT INTO cliente (nombre, email, telefono) VALUES
 ('Juan Perez', 'juanperez@mail.com', '999111222'),
 ('Ana Torres', 'ana.torres@mail.com', '988222333'),
@@ -33,13 +99,6 @@ INSERT INTO cliente (nombre, email, telefono) VALUES
 ('Sofia Castro', 'sofia.c@mail.com', '933777888'),
 ('Pedro Diaz', 'pedro.d@mail.com', '922888999');
 
--- Tabla contacto
-CREATE TABLE contacto (
-    id BIGINT IDENTITY(1,1) PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    telefono VARCHAR(20) NOT NULL,
-    email VARCHAR(100) NOT NULL
-);
 INSERT INTO contacto (nombre, telefono, email) VALUES
 ('Juan Perez', '999111222', 'juanperez@mail.com'),
 ('Ana Torres', '988222333', 'ana.torres@mail.com'),
@@ -50,12 +109,6 @@ INSERT INTO contacto (nombre, telefono, email) VALUES
 ('Sofia Castro', '933777888', 'sofia.c@mail.com'),
 ('Pedro Diaz', '922888999', 'pedro.d@mail.com');
 
--- Tabla pedido
-CREATE TABLE pedido (
-    id BIGINT IDENTITY(1,1) PRIMARY KEY,
-    fecha DATE NOT NULL,
-    total FLOAT NOT NULL
-);
 INSERT INTO pedido (fecha, total) VALUES
 ('2024-04-01', 150.50),
 ('2024-04-02', 200.00),
@@ -66,13 +119,6 @@ INSERT INTO pedido (fecha, total) VALUES
 ('2024-04-07', 80.00),
 ('2024-04-08', 210.30);
 
--- Tabla producto
-CREATE TABLE producto (
-    id BIGINT IDENTITY(1,1) PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    descripcion VARCHAR(255),
-    precio FLOAT NOT NULL
-);
 INSERT INTO producto (nombre, descripcion, precio) VALUES
 ('Fertilizante NPK', 'Fertilizante completo', 50.00),
 ('Pala', 'Herramienta de acero', 30.00),
@@ -83,16 +129,6 @@ INSERT INTO producto (nombre, descripcion, precio) VALUES
 ('Tractor', 'Maquinaria agrícola', 5000.00),
 ('Guantes', 'Accesorio de protección', 5.00);
 
--- Tabla supplier
-CREATE TABLE proveedores (
-    id BIGINT IDENTITY(1,1) PRIMARY KEY,
-    ruc CHAR(11) NOT NULL,
-    cellphone CHAR(9) NOT NULL,
-    company_name VARCHAR(100) NOT NULL,
-    contact_name VARCHAR(100),
-    address VARCHAR(150),
-    state CHAR(1) NOT NULL
-);
 INSERT INTO proveedores (ruc, cellphone, company_name, contact_name, address, state) VALUES
 ('20123456789', '987654321', 'AgroPeru SAC', 'Luis Mendoza', 'Lima', 'A'),
 ('20987654321', '912345678', 'Fertilizantes del Sur', 'Ana Torres', 'Arequipa', 'A'),
@@ -102,6 +138,12 @@ INSERT INTO proveedores (ruc, cellphone, company_name, contact_name, address, st
 ('20876543210', '911234567', 'AgroAndes', 'Sofia Castro', 'Lambayeque', 'A'),
 ('20345678901', '922345678', 'CampoFertil', 'Pedro Diaz', 'Tacna', 'A'),
 ('20567890123', '933456789', 'SolAgro', 'Lucia Vega', 'Ica', 'I');
+
+GO
+
+-- ========================================
+-- 5. VERIFICACIÓN
+-- ========================================
 SELECT * FROM categoria;
 SELECT * FROM cliente;
 SELECT * FROM contacto;
