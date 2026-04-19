@@ -108,11 +108,3 @@ SELECT * FROM contacto;
 SELECT * FROM pedido;
 SELECT * FROM producto;
 SELECT * FROM proveedores;
-//eliminar tablas//
-
-DROP TABLE IF EXISTS categoria;
-DROP TABLE IF EXISTS cliente;
-DROP TABLE IF EXISTS contacto;
-DROP TABLE IF EXISTS pedido;
-DROP TABLE IF EXISTS producto;
-DROP TABLE IF EXISTS proveedores;
